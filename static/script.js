@@ -13,7 +13,13 @@ async function loadWeather() {
 
         }
 
+        
+
         const weatherData = await response.json();
+
+        if (!Array.isArray(weatherData)) {
+            throw new Error ("Invalid weather data");
+        }
         
         allCities = weatherData;
 
@@ -29,6 +35,21 @@ async function loadWeather() {
     } catch (error) {
     message.textContent = error.message;
     console.error("Weather Loading failed: ",error);
+    
+    allCities = [];
+
+    container.innerHTML = "";
+
+    message.textContent =
+    "Weather data is temporarily unavailable. Please try again. ";
+
+    const retryButton = document.getElementById("button")
+    retryButton.textContent = "Try Again";
+    retryButton.className = "retry-button";
+
+    retryButton.addEventListener("click", loadWeather);
+
+    container.appendChild(retryButton);
 
     }
     
@@ -120,6 +141,14 @@ else if (filterValue === "cool") {
     filteredCities.forEach(element => {
             const card = document.createElement("div");
             card.className = "weather-card";
+        if (element.error) {
+            card.innerHTML = `
+            <h2>${element.city}</h2>
+            <p> Data unavailable</p>
+            `;
+            container.appendChild(card);
+            return;
+        } 
     console.log("Creating card for: ",element.city);
 
         card.innerHTML = `

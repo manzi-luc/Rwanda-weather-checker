@@ -72,3 +72,17 @@ header{
         box-sizing: border-box;
     }
 }
+.retry-button {
+    background-color: #2563eb;
+    color:white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.retry-button:hover{
+    background-color: #1d4ed8;
+}
