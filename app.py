@@ -2,7 +2,7 @@ import os
 import requests
 
 from dotenv import load_dotenv
-from flask  import Flask, jsonify
+from flask  import Flask, jsonify,render_template
 cities = [
     "Kigali",
         "Huye",
@@ -20,7 +20,7 @@ load_dotenv()
 
 api_key = os.getenv("OpenWeather_API_KEY")
 
-print("API key length:" , len(api_key) if api_key else 0)
+
 
 app = Flask(__name__)
 
@@ -57,13 +57,18 @@ def get_all_weather():
     
     for city in cities:
         try:
+            
+            
             weather = get_weather(city)
             answers.append(weather)
             
+            
         except Exception as error:
+            app.logger.error("Failed to get weather for %S: %S", city, error)
+            
             answers.append({
                 "city": city,
-                "error":str(error)
+                "error": True
             })
             
     return answers
@@ -72,7 +77,7 @@ def get_all_weather():
     
 @app.route("/")
 def home():
-    return "Rwanda Weather Checker"
+    return render_template("index.html")
 
 @app.route("/weather/<city>")
 def weather_route(city):
@@ -85,7 +90,18 @@ def weather_route(city):
         return jsonify({"error": "Could not connect to weather API"}), 502
 @app.route("/weather")
 def all_weather():
-    return jsonify(get_all_weather())
+    try:
+        
+            weather_data = get_all_weather()
+            return jsonify(get_all_weather())
+    except Exception as error:
+            app.logger.error("Weather loading failed: %s", error)
+        
+    return jsonify({
+            "error": "Weather data is temporarily available. Please try again."
+            
+        }),500
+    
         
 if __name__ == "__main__":
             app.run()
