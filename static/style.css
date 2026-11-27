@@ -30,5 +30,45 @@ header{
 .weather-card h3{
     font-size: 28px;
     color: #2563eb;
-    
+
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 25px auto;
+    max-width: 1000px;
+}
+.controls input,
+.controls select{
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: white;
+    outline: none;
+    transition: 0.3s;
+}
+
+.controls input{
+    flex: 1;
+    min-width: 200px;
+}
+.controls select{
+    cursor: pointer;
+    min-width: 150px;
+}
+@media(max-width: 600px) {
+    .controls{
+        flex-direction: column;
+        padding: 0 15px;
+    }
+    .controls input,
+    .controls select {
+        width: 100%;
+        box-sizing: border-box;
+    }
 }

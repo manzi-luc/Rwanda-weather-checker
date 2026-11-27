@@ -15,6 +15,25 @@
     <main>
         <p id="message">Weather information will appear here.</p>
 
+        <div class="controls">
+            
+            <input type="text"
+            id="search-input"
+            placeholder="Search for a city..."
+            >
+            <select  id="filter-select">
+                <option value="all">All</option>
+                <option value="rainy">Rainy</option>
+                <option value="warm">Warm(above 22°C)</option>
+                <option value="cool">Cool</option>
+            </select>
+            <select  id="sort-select">
+                <option value="name">City A to Z</option>
+                <option value="hottest">Hottest first</option>
+                <option value="coolest">Coolest first</option>
+            </select>
+        </div>
+
         <div id="weather-container"></div>
     </main>
     <script src="{{url_for('static', filename='script.js') }}"></script>
